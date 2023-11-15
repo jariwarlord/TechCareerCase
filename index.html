@@ -4,28 +4,80 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div class="timer">
-            <span class="hour">00</span>:<span class="minute">00</span>:<span class="second">10</span>
-        </div>
-        <div class="control">
-            <button onClick="timer.start(1000)">Start</button> 
-            <button onClick="timer.stop()">Stop</button> 
-            <button onClick="timer.reset(60)">Reset</button> 
-            <button onClick="timer.mode(1)">Count up</button> 
-            <button onClick="timer.mode(0)">Count down</button>
-        </div>
-        
-        <script src="" async defer></script>
-    </body>
-</html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tech Career Case</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
 
-        
+</head>
+<body>
+    <div class="timer">
+        <span class="hour">00</span>:<span class="minute">00</span>:<span class="second">10</span>
+    </div>
+    <div class="control">
+        <button onclick="startTimer(1000)">Start</button> 
+        <button onclick="stopTimer()">Stop</button> 
+        <button onclick="resetTimer(60)">Reset</button> 
+        <button onclick="changeMode(1)">Count up</button> 
+        <button onclick="changeMode(0)">Count down</button>
+    </div>
+    
+    <script>
+        let timer;
+        let secondsRemaining = 10;
+        let timerMode = 0; 
+
+        function startTimer(interval) {
+            timer = setInterval(function () {
+                if (timerMode === 0) {
+                    
+                    if (secondsRemaining > 0) {
+                        secondsRemaining--;
+                    } else {
+                        clearInterval(timer);
+                    }
+                } else {
+                    
+                    secondsRemaining++;
+                }
+
+                updateTimerDisplay();
+            }, interval);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        function resetTimer(initialSeconds) {
+            secondsRemaining = initialSeconds;
+            updateTimerDisplay();
+        }
+
+        function changeMode(mode) {
+            timerMode = mode;
+        }
+
+        function updateTimerDisplay() {
+            const hourElement = document.querySelector('.hour');
+            const minuteElement = document.querySelector('.minute');
+            const secondElement = document.querySelector('.second');
+
+            const hours = Math.floor(secondsRemaining / 3600);
+            const minutes = Math.floor((secondsRemaining % 3600) / 60);
+            const seconds = secondsRemaining % 60;
+
+            hourElement.textContent = padZero(hours);
+            minuteElement.textContent = padZero(minutes);
+            secondElement.textContent = padZero(seconds);
+        }
+
+        function padZero(value) {
+            return value < 10 ? '0' + value : value;
+        }
+    </script>
+</body>
+</html>
